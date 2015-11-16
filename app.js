@@ -4,6 +4,7 @@ var request = require('request');
 var json = require('JSON');
 
 var app = express();
+app.set('port', (process.env.PORT || 5000));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 
 app.get('/', function (req, res) {
@@ -21,7 +22,7 @@ app.post('/', function (req, res) {
 	});
 });
 
-var server = app.listen(8080, function () {
+var server = app.listen(app.get('port'), function () {
   var host = server.address().address;
   var port = server.address().port;
 
