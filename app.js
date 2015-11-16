@@ -30,7 +30,7 @@ app.post('/', function (req, res) {
 		} else {
 			request.post({
 		    	url:'https://hooks.slack.com/services/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',
-		    	form: "{\"text\":\"" + stock.Symbol + "-- Last Price: " + stock.LastPrice + ", Change: " + change + ", Change Percent: " + changePercent + "\"}"
+		    	form: "{\"text\":\"" + stock.Symbol + "-- Last Price: " + stock.LastPrice + ", " + change + " " + changePercent + "%\"}"
 		    }, function (error, response, body) {
 		    	console.log("E " + error);
 		    	console.log("R " + response);
