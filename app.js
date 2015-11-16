@@ -12,6 +12,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/', function (req, res) {
+	console.log(req.body);
 	request('http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?callback=myFunction&symbol=' + req.body.text, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	  	body = body.replace("myFunction(","");
