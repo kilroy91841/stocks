@@ -20,25 +20,25 @@ app.post('/', function (req, res) {
 	    body = body.replace(")","");
 	    var stock = JSON.parse(body);
 
-	    var body2 = {};
-	    body2["text"] = stock;
-
-	    var bodyString = JSON.stringify(body2);
-	    console.log(bodyString);
-
 	    var change = numeral(stock.Change).format('+0.00');
 	    var changePercent = numeral(stock.ChangePercent).format('+0.00');
 
-	    request.post({
-	    	url:'https://hooks.slack.com/services/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',
-	    	form: "{\"text\":\"" + stock.Symbol + "-- Last Price: " + stock.LastPrice + ", Change: " + change + ", Change Percent: " + changePercent + "\"}"
-	    }, function (error, response, body) {
-	    	console.log("E " + error);
-	    	console.log("R " + response);
-	    	console.log("B " + body);
-	    });	
+	    console.log(stock);
 
-	  	res.send("Gimme one second while I fetch you the stock info on " + req.body.text);
+	    if(stock.Message !== undefined) {
+		    res.send("Couldn't find a stock price for that symbol, check your facts");
+		} else {
+			request.post({
+		    	url:'https://hooks.slack.com/services/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',
+		    	form: "{\"text\":\"" + stock.Symbol + "-- Last Price: " + stock.LastPrice + ", Change: " + change + ", Change Percent: " + changePercent + "\"}"
+		    }, function (error, response, body) {
+		    	console.log("E " + error);
+		    	console.log("R " + response);
+		    	console.log("B " + body);
+		    });	
+
+			res.send("Gimme one second while I fetch you the stock info on " + req.body.text);
+		}
 	  }
 	});
 });
