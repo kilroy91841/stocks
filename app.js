@@ -1,7 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var markit = require('./markit');
-var http = require('http');
 var request = require('request');
 var json = require('JSON');
 

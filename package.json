@@ -1,0 +1,28 @@
+{
+    "dependencies": {
+        "body-parser": "*",
+        "request": "*",
+        "JSON": "*",
+        "express": "4.13.3"
+    },
+    "description": "Stock app",
+    "engines": {
+        "node": "0.12.7"
+    },
+    "keywords": [
+        "node",
+        "heroku",
+        "express"
+    ],
+    "license": "MIT",
+    "main": "index.js",
+    "name": "node-js-getting-started",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kilroy91841/stocks"
+    },
+    "scripts": {
+        "start": "node app.js"
+    },
+    "version": "0.1.5"
+}
