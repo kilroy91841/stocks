@@ -30,9 +30,9 @@ app.post('/', function (req, res) {
 		} else {
 			var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
 			if(stock.ChangePercent < 0) {
-				attachments += ", \"color\": \"danger\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price: " + stock.LastPrice + ", " + change + " " + changePercent + "\" } ]"
+				attachments += ", \"color\": \"danger\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price: " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
 			} else {
-				attachments += ", \"color\": \"good\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price " + stock.LastPrice + ", " + change + " " + changePercent + "\" } ]"
+				attachments += ", \"color\": \"good\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
 			}
 			attachments += "} ]";
 			request.post({
