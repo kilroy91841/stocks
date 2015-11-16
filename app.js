@@ -28,9 +28,16 @@ app.post('/', function (req, res) {
 	    if(stock.Message !== undefined) {
 		    res.send("Couldn't find a stock price for that symbol, check your facts");
 		} else {
+			var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
+			if(stock.ChangePercent < 0) {
+				attachments += ", \"color\": \"danger\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price: " + stock.LastPrice + ", " + change + " " + changePercent + "\" } ]"
+			} else {
+				attachments += ", \"color\": \"good\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price " + stock.LastPrice + ", " + change + " " + changePercent + "\" } ]"
+			}
+			attachments += "} ]";
 			request.post({
 		    	url:'https://hooks.slack.com/services/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',
-		    	form: "{\"text\":\"" + stock.Symbol + "-- Last Price: " + stock.LastPrice + ", " + change + " " + changePercent + "%\"}"
+		    	form: "{" + attachments + " }"
 		    }, function (error, response, body) {
 		    	console.log("E " + error);
 		    	console.log("R " + response);
