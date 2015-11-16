@@ -34,7 +34,7 @@ app.post('/', function (req, res) {
 	    	console.log("B " + body);
 	    });	
 
-	  	res.send("k");
+	  	res.send("Gimme one second while I fetch you the stock info on " + req.body.text);
 	  }
 	});
 });
