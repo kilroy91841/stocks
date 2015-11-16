@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var json = require('JSON');
+var numeral = require('numeral');
 
 var app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -25,9 +26,12 @@ app.post('/', function (req, res) {
 	    var bodyString = JSON.stringify(body2);
 	    console.log(bodyString);
 
+	    var change = numeral(stock.Change).format('+0.00');
+	    var changePercent = numeral(stock.ChangePercent).format('+0.00');
+
 	    request.post({
 	    	url:'https://hooks.slack.com/services/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',
-	    	form: "{\"text\":\"" + stock.Symbol + "-- Last Price: " + stock.LastPrice + ", Change: " + stock.ChangePercent + "\"}"
+	    	form: "{\"text\":\"" + stock.Symbol + "-- Last Price: " + stock.LastPrice + ", Change: " + change + ", Change Percent: " + changePercent + "\"}"
 	    }, function (error, response, body) {
 	    	console.log("E " + error);
 	    	console.log("R " + response);

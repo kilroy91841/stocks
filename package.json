@@ -3,6 +3,7 @@
         "body-parser": "*",
         "request": "*",
         "JSON": "*",
+        "numeral": "*",
         "express": "4.13.3"
     },
     "description": "Stock app",
