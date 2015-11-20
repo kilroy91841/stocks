@@ -35,16 +35,18 @@ app.post('/', function (req, res) {
 				attachments += ", \"color\": \"good\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
 			}
 			attachments += "} ]";
-			request.post({
-		    	url:'https://hooks.slack.com/services/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',
-		    	form: "{" + attachments + " }"
-		    }, function (error, response, body) {
-		    	console.log("E " + error);
-		    	console.log("R " + response);
-		    	console.log("B " + body);
-		    });	
+			res.setHeader("Content-type", "application/json");
+			res.send("{ \"response_type\": \"in_channel\"," + attachments + " }");
+			// request.post({
+		 //    	url:'https://hooks.slack.com/services/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',
+		 //    	form: "{ \"response_type\": \"in_channel\"," + attachments + " }"
+		 //    }, function (error, response, body) {
+		 //    	console.log("E " + error);
+		 //    	console.log("R " + response);
+		 //    	console.log("B " + body);
+		 //    });	
 
-			res.send("Gimme one second while I fetch you the stock info on " + req.body.text);
+			// res.send("Gimme one second while I fetch you the stock info on " + req.body.text);
 		}
 	  }
 	});
