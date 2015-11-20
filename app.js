@@ -50,6 +50,10 @@ app.post('/', function (req, res) {
 	});
 });
 
+app.post('/youlikethat', function (req, res) {
+	res.send("{ \"response_type\": \"in_channel\", \"text\":\"https://www.youtube.com/watch?v=bsB7UQ8BlE0\" }");
+});
+
 var server = app.listen(app.get('port'), function () {
   var host = server.address().address;
   var port = server.address().port;
