@@ -51,6 +51,7 @@ app.post('/', function (req, res) {
 });
 
 app.post('/youlikethat', function (req, res) {
+	res.setHeader("Content-type", "application/json");
 	res.send("{ \"response_type\": \"in_channel\", \"text\":\"https://www.youtube.com/watch?v=bsB7UQ8BlE0\" }");
 });
 
