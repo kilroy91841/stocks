@@ -78,6 +78,7 @@ app.post('/define', function (req, res) {
 				definition = definition.replace(":","");
 				var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
 				attachments += ", \"color\": \"good\", \"fields\":[ { \"title\": \"" + word + "\", \"value\":\" " + definition + "\" } ]";
+				attachments += "} ]";
 				res.send("{ \"response_type\": \"in_channel\"," + attachments + " }");
 			}
 		});
