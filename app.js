@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var json = require('JSON');
 var numeral = require('numeral');
+var parseString = require('xml2js').parseString;
 
 var app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -55,6 +56,32 @@ app.post('/', function (req, res) {
 app.post('/youlikethat', function (req, res) {
 	res.setHeader("Content-type", "application/json");
 	res.send("{ \"response_type\": \"in_channel\", \"text\":\"https://www.youtube.com/watch?v=bsB7UQ8BlE0\" }");
+});
+
+var KEY = '5dba0054-f270-46a2-8d89-2b5dd9917957';
+
+app.post('/define', function (req, res) {
+	var word = req.body.text;
+	res.setHeader("Content-type", "application/json");
+	request('http://www.dictionaryapi.com/api/v1/references/collegiate/xml/' + word + '?key=' + KEY, function (error, response, body) {
+		parseString(body, function(err, result) {
+			if(err) {
+				res.send("Couldn't find a definition for that word, check your facts");
+			} else {
+				var linkIndex = 0;
+				var definition = result.entry_list.entry[0].def[0].dt[0]._;
+				while(definition.indexOf("  ") > 0) {
+					var index = definition.indexOf("  ");
+					definition = [definition.slice(0, index), " " + result.entry_list.entry[0].def[0].dt[0].d_link[linkIndex], definition.slice(index + 1)].join('')
+					linkIndex++;
+				}
+				definition = definition.replace(":","");
+				var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
+				attachments += ", \"color\": \"good\", \"fields\":[ { \"title\": \"" + word + "\", \"value\":\" " + definition + "\" } ]";
+				res.send("{ \"response_type\": \"in_channel\"," + attachments + " }");
+			}
+		});
+	});
 });
 
 var server = app.listen(app.get('port'), function () {
