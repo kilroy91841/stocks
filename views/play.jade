@@ -1,0 +1,79 @@
+doctype html
+
+html
+	head
+		title Celebrity
+
+		block scripts
+			script(type='text/javascript', src='http://code.jquery.com/jquery-latest.min.js')
+	script.
+		var currentWord;
+		var maxTimer = 5;
+		var timer = maxTimer;
+
+		var myInterval;
+
+		var startRound = function() {
+			$('#start').hide();
+			$('#correct').show();
+			$('#fail').show();
+			$('#word').show();
+			getWord();
+
+			$('#timer').text(timer);
+
+			myInterval = setInterval(tick, 1000);
+		}
+
+		var tick = function() {
+			timer--;
+			$('#timer').text(timer);
+			if(timer == 0) {
+				endRound();
+				timer = maxTimer;
+			}
+		}
+
+		var endRound = function() {
+			$('#start').show();
+			$('#word').hide();
+			$('#correct').hide();
+			$('#fail').hide();
+
+			clearInterval(myInterval);
+		}
+
+		var getWord = function() {
+			$.get('/celebrity/words', function(result) {
+				currentWord = result.word;
+				if(currentWord == undefined) {
+					endRound();
+				} else {
+					$('#word').text(currentWord);
+				}
+			});
+		}
+
+		var correct = function() {
+			$.post('/celebrity/words/correct', { word : currentWord}, function(result) {
+				getWord();
+			});
+		}
+
+		var fail = function() {
+			$.post('/celebrity/words/fail', { word : currentWord}, function(result) {
+				getWord();
+			});
+		}
+
+	body
+		h2#round Round: #{round}
+
+		p#word
+
+		input#start(type="submit" value="start the round" onclick="startRound()")
+		input#correct(type="submit" value="correct!" onclick="correct()")
+		input#fail(type="submit" value="oops!" onclick="fail()")
+
+		p#timer
+			

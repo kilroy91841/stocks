@@ -1,0 +1,32 @@
+doctype html
+
+html
+	head
+		title Celebrity
+	body
+		h1 Celebrity
+
+		h3 Current Players:
+			for user in users
+				p= user
+
+		-if(user == undefined)
+			form(name="signup", action="/celebrity/users", method="post")
+				input(type="text", name="user")
+				input(type="submit", value="signup")
+		-else
+			h2 Welcome back, #{user}
+			-var remainingWords = wordCount == undefined ? 0 : wordCount;
+			h3 Words remaining: #{remainingWords}
+
+			-if(remainingWords > 0)
+				form(name="newword", action="/celebrity/words", method="post")
+					input(type="text", name="word")
+					input(type="hidden", name="user", value="#{user}")
+					input(Type="submit", value="add word")
+
+			-if(user == "ari")
+				form(name="start", action="/celebrity/admin/start", method="get")
+					input(type="submit", value="SET UP GAME")
+				form(name="start", action="/celebrity/play", method="get")
+					input(type="submit", value="START GAME")

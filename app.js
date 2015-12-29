@@ -7,12 +7,14 @@ var parseString = require('xml2js').parseString;
 var celebrity = require('./celebrity');
 
 var app = express();
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 app.set('port', (process.env.PORT || 5000));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  	res.render("helloworld");
 });
 
 app.post('/', function (req, res) {
@@ -89,11 +91,89 @@ app.post('/define', function (req, res) {
 	// });
 });
 
-app.post('/celebrity/users', function (req, res) {
-	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	var user = req.body.user;
-	res.send("hi, " + user + " from " + ip);
+/** 
+CELEBRITY 
+**/
+
+app.get('/celebrity', function (req, res) {
+	var userObj = celebrity.getUser(req.query.user);
+	if(userObj == undefined) {
+		userObj = {};
+	}
+	var userNames = celebrity.getAllUserNames();
+	res.render("celebrity", { user : userObj.user, wordCount : userObj.remaining, users : userNames });
 });
+
+app.post('/celebrity/users', function (req, res) {
+	var user = req.body.user;
+	var userObj = celebrity.addNewUser(user);
+	if(userObj == false) {
+		res.redirect(301, "/celebrity");	
+	}
+	res.redirect(301, "/celebrity?user=" + userObj.user);
+});
+
+app.post('/celebrity/words', function (req, res) {
+	var word = req.body.word;
+	var user = req.body.user;
+
+	celebrity.addWord(user, word);
+
+	res.redirect(301, "/celebrity?user=" + user);
+});
+
+app.get('/celebrity/words', function (req, res) {
+	var newWord = celebrity.retrieveNewWord();
+	res.setHeader("Content-type", "application/json");
+	res.send({word: newWord});
+});
+
+app.post('/celebrity/words/correct', function (req, res) {
+	var word = req.body.word;
+
+	celebrity.correctWord(word);
+
+	res.send("success");
+});
+
+app.post('/celebrity/words/fail', function (req, res) {
+	var word = req.body.word;
+
+	celebrity.wordScrewup(word);
+
+	res.send("you screwed up");
+})
+
+app.get('/celebrity/admin/reset', function (req, res) {
+	celebrity.resetGame();
+	res.send("game reset");
+});
+
+app.get('/celebrity/play', function (req, res) {
+	var game = celebrity.getGame();
+	res.render("play", game);
+});
+
+app.get('/celebrity/admin/start', function (req, res) {
+	celebrity.startGame();
+	res.send("game set up");
+});
+
+app.get('/celebrity/game', function (req, res) {
+	var game = celebrity.getGame();
+	res.render("game", game);
+});
+
+app.post('/celebrity/endRound', function (req, res) {
+	celebrity.endRound();
+
+	res.send("round ended");
+});
+
+var getIp = function(req) {
+	return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+}
+
 
 var server = app.listen(app.get('port'), function () {
   var host = server.address().address;
