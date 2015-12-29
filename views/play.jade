@@ -14,6 +14,8 @@ html
 			$('#fail').hide();
 			
 			$.get('/celebrity/info/game', function(game) {
+				maxTimer = game.maxTimer;
+				timer = maxTimer;
 				refreshBoard(game);
 			});
 		});
@@ -51,9 +53,9 @@ html
 
 		//TIMER
 
-		var maxTimer = 5;
-		var timer = maxTimer;
+		var timer;
 		var myInterval;
+		var maxTimer;
 
 		var tick = function() {
 			timer--;

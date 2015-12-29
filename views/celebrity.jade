@@ -34,3 +34,11 @@ html
 				input(type="submit", value="START GAME")
 			form(name="reset", action="/celebrity/admin/reset", method="get")
 				input(type="submit", value="RESET GAME")
+			form(name="setup", action="/celebrity/setup", method="post")
+				p
+					| Words Per Player
+					input(type="number", name="wordsPerPlayer")
+				p
+					| Timer
+					input(type="maxTimer", name="maxTimer")
+				input(type="submit", value="SETUP")

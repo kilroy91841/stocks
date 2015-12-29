@@ -3,10 +3,12 @@ var words = [];
 var round;
 var scores = [];
 var currentTurnTeam;
-var wordsPerPlayer = 5;
+var maxTimer;
+var wordsPerPlayer;
 
 var getGame = function() {
 	var game = {};
+	game.maxTimer = maxTimer;
 	game.round = round;
 	game.currentTurnTeam = currentTurnTeam + 1;
 	game.team1Score = scores[0];
@@ -20,6 +22,11 @@ var getGame = function() {
 	});
 	game.wordsRemaining = wordCount;
 	return game;
+}
+
+var initialize = function(setupData) {
+	maxTimer = setupData.maxTimer;
+	wordsPerPlayer = setupData.wordsPerPlayer;
 }
 
 var getUser = function(user) {
@@ -203,7 +210,8 @@ module.exports = {
 	resetGame : resetGame,
 	getUser : getUser,
 	getAllUserNames : getAllUserNames,
-	getGame : getGame
+	getGame : getGame,
+	initialize : initialize
 };
 
 // addWord("ari", "brad pitt");

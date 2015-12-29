@@ -104,6 +104,14 @@ app.get('/celebrity', function (req, res) {
 	res.render("celebrity", { user : userObj.user, wordCount : userObj.remaining, users : userNames, admin : req.query.admin });
 });
 
+app.post('/celebrity/setup', function (req, res) {
+	var setupData = {};
+	setupData.maxTimer = req.body.maxTimer;
+	setupData.wordsPerPlayer = req.body.wordsPerPlayer;
+	celebrity.initialize(setupData);
+	res.send('game initialized');
+});
+
 app.post('/celebrity/users', function (req, res) {
 	var user = req.body.user;
 	var userObj = celebrity.addNewUser(user);
