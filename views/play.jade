@@ -7,71 +7,123 @@ html
 		block scripts
 			script(type='text/javascript', src='http://code.jquery.com/jquery-latest.min.js')
 	script.
-		var currentWord;
-		var maxTimer = 5;
-		var timer = maxTimer;
+		//DISPLAY
 
-		var myInterval;
+		var refreshBoard = function(game) {
+			$('#round').text("Round: " + game.round);
+			$('#wordsLeft').text("Words Remaining: " + game.wordsRemaining);
+			$('#curTeam').text("Current Team: " + game.currentTurnTeam);
+		}
 
-		var startRound = function() {
+		var hideButtons = function() {
+			$('#start').show();
+			$('#correct').hide();
+			$('#fail').hide();
+			$('#word').hide();
+			$('#timer').hide();
+		}
+
+		var showButtons = function() {
 			$('#start').hide();
 			$('#correct').show();
 			$('#fail').show();
 			$('#word').show();
-			getWord();
-
-			$('#timer').text(timer);
-
-			myInterval = setInterval(tick, 1000);
+			$('#timer').show();
 		}
+
+		//TIMER
+
+		var maxTimer = 5;
+		var timer = maxTimer;
+		var myInterval;
 
 		var tick = function() {
 			timer--;
 			$('#timer').text(timer);
 			if(timer == 0) {
-				endRound();
+				clearInterval(myInterval);
+				endTurn();
 				timer = maxTimer;
 			}
 		}
 
-		var endRound = function() {
-			$('#start').show();
-			$('#word').hide();
-			$('#correct').hide();
-			$('#fail').hide();
+		//ROUND
 
+		var endRound = function() {
 			clearInterval(myInterval);
+			hideButtons();
+			$.post('/celebrity/endRound', function(game) {
+				refreshBoard(game);
+			});
 		}
 
-		var getWord = function() {
+		//TURN
+
+		var startTurn = function() {
+			showButtons();
+
+			getWord(function() {
+				displayWord();
+				$('#timer').text(timer);
+				myInterval = setInterval(tick, 1000);
+			});
+		}
+
+		var endTurn = function() {
+			hideButtons();
+			$.post('/celebrity/endTurn', function(game) {
+				refreshBoard(game);
+			});
+		}
+
+		//WORD
+
+		var currentWord;
+
+		var getWord = function(callback) {
 			$.get('/celebrity/words', function(result) {
 				currentWord = result.word;
-				if(currentWord == undefined) {
-					endRound();
-				} else {
-					$('#word').text(currentWord);
-				}
+
+				callback();
 			});
+		}
+
+		var displayWord = function() {
+			$('#word').text(currentWord);
 		}
 
 		var correct = function() {
 			$.post('/celebrity/words/correct', { word : currentWord}, function(result) {
-				getWord();
+				getWord(function() {
+					if(currentWord == undefined) {
+						endRound();
+					} else {
+						displayWord();
+					}
+				});
 			});
 		}
 
 		var fail = function() {
 			$.post('/celebrity/words/fail', { word : currentWord}, function(result) {
-				getWord();
+				getWord(function() {
+					if(currentWord == undefined) {
+						endRound();
+					} else {
+						displayWord();
+					}
+				});
 			});
 		}
 
 	body
+		h2#curTeam Current Team: #{currentTurnTeam}
 		h2#round Round: #{round}
+		h3#wordsLeft Words Left: #{wordsRemaining}
 
 		p#word
 
-		input#start(type="submit" value="start the round" onclick="startRound()")
+		input#start(type="submit" value="start the round" onclick="startTurn()")
 		input#correct(type="submit" value="correct!" onclick="correct()")
 		input#fail(type="submit" value="oops!" onclick="fail()")
 

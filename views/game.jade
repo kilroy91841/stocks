@@ -7,16 +7,21 @@ html
 		block scripts
 			script(type='text/javascript', src='http://code.jquery.com/jquery-latest.min.js')
 	script.
-		var getWord = function() {
-			$.get('/celebrity/words', function(result) {
-				$('#word').text(result.word);
+		var myInterval;
+
+		setInterval(function() {
+			$.get('/celebrity/info/game', function(game) {
+				$('#team1Score').text("Team 1 Score: " + game.team1Score.score);
+				$('#team2Score').text("Team 2 Score: " + game.team2Score.score);
+				$('#round').text("Round: " + game.round);
+				$('#wordsRemaining').text("Words Remaining: " + game.wordsRemaining);
 			});
-		}
+		}, 1000);
 
 	body
 
-		h1 Team 1 Score: #{team1Score.score}
-		h1 Team 2 Score: #{team2Score.score}
-		h3 Round: #{round}
-		h3 Words Remaining: #{wordsRemaining}
+		h1#team1Score Team 1 Score: #{team1Score.score}
+		h1#team2Score Team 2 Score: #{team2Score.score}
+		h3#round Round: #{round}
+		h3#wordsRemaining Words Remaining: #{wordsRemaining}
 			

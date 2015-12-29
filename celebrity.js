@@ -8,9 +8,17 @@ var wordsPerPlayer = 5;
 var getGame = function() {
 	var game = {};
 	game.round = round;
-	game.currentTurnTeam = currentTurnTeam;
+	game.currentTurnTeam = currentTurnTeam + 1;
 	game.team1Score = scores[0];
 	game.team2Score = scores[1];
+	game.over = false;
+	var wordCount = 0;
+	words.forEach(function(word) {
+		if(!word.isSeen) {
+			wordCount++;
+		}
+	});
+	game.wordsRemaining = wordCount;
 	return game;
 }
 
@@ -158,13 +166,16 @@ var endRound = function() {
 
 	if(round > 3) {
 		//game is over!
-		return true;
+		var game = getGame();
+		game.over = true;
+		return game;
 	} else {
 		//mark all words as unseen
-		for(var wordObject in words) {
-			wordObject.isSeen = false;
-		}
-		return false;
+		words.forEach(function(word) {
+			word.isSeen = false;
+		});
+		shuffleWords();
+		return getGame();
 	}
 }
 
@@ -176,6 +187,8 @@ var endTurn = function() {
 	} else {
 		currentTurnTeam = 1;
 	}
+
+	return getGame();
 }
 
 module.exports = {

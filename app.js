@@ -164,10 +164,25 @@ app.get('/celebrity/game', function (req, res) {
 	res.render("game", game);
 });
 
-app.post('/celebrity/endRound', function (req, res) {
-	celebrity.endRound();
+app.get('/celebrity/info/game', function(req, res) {
+	var game = celebrity.getGame();
 
-	res.send("round ended");
+	res.setHeader("Content-type", "application/json");
+	res.send(game);
+});
+
+app.post('/celebrity/endRound', function (req, res) {
+	var game = celebrity.endRound();
+
+	res.setHeader("Content-type", "application/json");
+	res.send(game);
+});
+
+app.post('/celebrity/endTurn', function (req, res) {
+	var game = celebrity.endTurn();
+
+	res.setHeader("Content-type", "application/json");
+	res.send(game);
 });
 
 var getIp = function(req) {
