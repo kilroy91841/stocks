@@ -101,7 +101,7 @@ app.get('/celebrity', function (req, res) {
 		userObj = {};
 	}
 	var userNames = celebrity.getAllUserNames();
-	res.render("celebrity", { user : userObj.user, wordCount : userObj.remaining, users : userNames });
+	res.render("celebrity", { user : userObj.user, wordCount : userObj.remaining, users : userNames, admin : req.query.admin });
 });
 
 app.post('/celebrity/users', function (req, res) {

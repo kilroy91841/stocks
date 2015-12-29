@@ -9,12 +9,30 @@ html
 		block scripts
 			script(type='text/javascript', src='http://code.jquery.com/jquery-latest.min.js')
 	script.
+		$(document).ready(function() {
+			$('#correct').hide();
+			$('#fail').hide();
+			
+			$.get('/celebrity/info/game', function(game) {
+				refreshBoard(game);
+			});
+		});
+
 		//DISPLAY
 
 		var refreshBoard = function(game) {
 			$('#round').text("Round: " + game.round);
 			$('#wordsLeft').text("Words Remaining: " + game.wordsRemaining);
 			$('#curTeam').text("Current Team: " + game.currentTurnTeam);
+			$('#team1Score').text("Team 1 Score: " + game.team1Score.score);
+			$('#team2Score').text("Team 2 Score: " + game.team2Score.score);
+
+			if(game.round > 3) {
+				$('#game').hide();
+				$('#gameover').show();
+			} else {
+				$('#gameover').hide();
+			}
 		}
 
 		var hideButtons = function() {
@@ -22,7 +40,6 @@ html
 			$('#correct').hide();
 			$('#fail').hide();
 			$('#word').hide();
-			$('#timer').hide();
 		}
 
 		var showButtons = function() {
@@ -30,7 +47,6 @@ html
 			$('#correct').show();
 			$('#fail').show();
 			$('#word').show();
-			$('#timer').show();
 		}
 
 		//TIMER
@@ -119,15 +135,24 @@ html
 		}
 
 	body
-		h2#curTeam Current Team: #{currentTurnTeam}
-		h2#round Round: #{round}
-		h3#wordsLeft Words Left: #{wordsRemaining}
+		h1#team1Score Team 1 Score: #{team1Score.score}
+		h1#team2Score Team 2 Score: #{team2Score.score}
 
-		p#word
+		div#game
 
-		input#start(type="submit" value="start the round" onclick="startTurn()")
-		input#correct(type="submit" value="correct!" onclick="correct()")
-		input#fail(type="submit" value="oops!" onclick="fail()")
+			h2#curTeam Current Team: #{currentTurnTeam}
+			h2#round Round: #{round}
 
-		p#timer
+			h3#wordsLeft Words Left: #{wordsRemaining}
+
+			p#word
+
+			input#start(type="submit" value="start the round" onclick="startTurn()")
+			input#correct(type="submit" value="correct!" onclick="correct()")
+			input#fail(type="submit" value="oops!" onclick="fail()")
+
+			p Seconds Remaining
+			p#timer
+		div#gameover
+			h2 Game Over!
 			
