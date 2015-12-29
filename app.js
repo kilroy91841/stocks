@@ -4,6 +4,7 @@ var request = require('request');
 var json = require('JSON');
 var numeral = require('numeral');
 var parseString = require('xml2js').parseString;
+var celebrity = require('./celebrity');
 
 var app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -86,6 +87,12 @@ app.post('/define', function (req, res) {
 	// 		}
 	// 	});
 	// });
+});
+
+app.post('/celebrity/users', function (req, res) {
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	var user = req.body.user;
+	res.send("hi, " + user + " from " + ip);
 });
 
 var server = app.listen(app.get('port'), function () {
