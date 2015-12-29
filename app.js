@@ -10,6 +10,7 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.set('port', (process.env.PORT || 5000));
+app.use('/public', express.static(__dirname + '/public'));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -61,6 +61,8 @@ html
 			timer--;
 			$('#timer').text(timer);
 			if(timer == 0) {
+				var sound = document.getElementById("sounds");
+				sound.play();
 				clearInterval(myInterval);
 				endTurn();
 				timer = maxTimer;
@@ -157,4 +159,7 @@ html
 			p#timer
 		div#gameover
 			h2 Game Over!
+		div(style="hidden")
+			audio#sounds
+				source(src="/public/applause.mp3" type="audio/mpeg")
 			
