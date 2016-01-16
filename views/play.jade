@@ -27,7 +27,9 @@ html
 			$('#wordsLeft').text("Words Remaining: " + game.wordsRemaining);
 			$('#curTeam').text("Current Team: " + game.currentTurnTeam);
 			$('#team1Score').text("Team 1 Score: " + game.team1Score.score);
+			//$('#team1Score').text("Team 1 Score: ");
 			$('#team2Score').text("Team 2 Score: " + game.team2Score.score);
+			//$('#team2Score').text("Team 2 Score: ");
 
 			if(game.round > 3) {
 				$('#game').hide();
@@ -139,26 +141,26 @@ html
 		}
 
 	body
-		h1#team1Score Team 1 Score: #{team1Score.score}
-		h1#team2Score Team 2 Score: #{team2Score.score}
+		div#game(style="text-align:center")
 
-		div#game
+			p#word(style="font-size:15em")
 
-			h2#curTeam Current Team: #{currentTurnTeam}
-			h2#round Round: #{round}
-
-			h3#wordsLeft Words Left: #{wordsRemaining}
-
-			p#word
-
-			input#start(type="submit" value="start the round" onclick="startTurn()" style="height:10em;width:20em")
-			input#correct(type="submit" value="correct!" onclick="correct()" style="height:10em;width:20em")
+			input#start(type="submit" value="START THE ROUND" onclick="startTurn()" style="height:10em;width:20em")
+			input#correct(type="submit" value="CORRECT!" onclick="correct()" style="height:10em;width:20em;text-align:center;")
 			br
 			br
-			input#fail(type="submit" value="oops!" onclick="fail()")
+			input#fail(type="submit" value="OOPS!" onclick="fail()")
 
-			p Seconds Remaining
-			p#timer
+			p(style="font-size:3em") Seconds Remaining
+			p#timer(style="font-size:3em")
+
+			//h3#team1Score Team 1 Score: #{team1Score.score}
+			//h3#team2Score Team 2 Score: #{team2Score.score}
+
+			h4#curTeam Current Team: #{currentTurnTeam}
+			h4#round Round: #{round}
+
+			h4#wordsLeft Words Left: #{wordsRemaining}
 		div#gameover
 			h2 Game Over!
 		div(style="hidden")
