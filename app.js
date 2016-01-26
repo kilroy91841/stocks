@@ -60,11 +60,11 @@ app.post('/', function (req, res) {
 
 app.post('/bowling', function (req, res) {
 	var schedule = [];
-	schedule.push(moment('2016-01-26 20:10:00', 'America/New_York'));
-	schedule.push(moment('2016-02-02 18:30:00', 'America/New_York'));
-	schedule.push(moment('2016-02-09 18:30:00', 'America/New_York'));
-	schedule.push(moment('2016-02-16 20:10:00', 'America/New_York'));
-	schedule.push(moment('2016-02-23 18:30:00', 'America/New_York'));
+	schedule.push(moment.tz("January 26th 2016 8:10PM", "MMM Do YYYY h:mA", "America/New_York"));
+	schedule.push(moment.tz("February 2nd 2016 6:30PM", "MMM Do YYYY h:mA", "America/New_York"));
+	schedule.push(moment.tz("February 9th 2016 6:30PM", "MMM Do YYYY h:mA", "America/New_York"));
+	schedule.push(moment.tz("February 16th 2016 8:10PM", "MMM Do YYYY h:mA", "America/New_York"));
+	schedule.push(moment.tz("February 23rd 2016 6:30PM", "MMM Do YYYY h:mA", "America/New_York"));
 	var now = moment().tz('America/New_York');
 	var nextGame = undefined;
 	schedule.forEach(function(s) {
