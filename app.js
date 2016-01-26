@@ -74,7 +74,7 @@ app.post('/bowling', function (req, res) {
 	});
 	var timeTo = now.to(nextGame, true);
 	var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
-	attachments += ", \"color\": \"good\", \"fields\":[ { \"value\":\"BOWLING is in " + timeTo + "\" } ]"
+	attachments += ", \"color\": \"good\", \"fields\":[ { \"title\":\"Next Game: " + nextGame.format("dddd, MMMM Do, h:mm a") + "\", \"value\":\"BOWLING is in " + timeTo + "\" } ]"
 	attachments += "} ]";
 	res.setHeader("Content-type", "application/json");
 	res.send("{ \"response_type\": \"in_channel\"," + attachments + " }");
