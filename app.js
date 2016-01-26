@@ -60,11 +60,11 @@ app.post('/', function (req, res) {
 
 app.post('/bowling', function (req, res) {
 	var schedule = [];
-	schedule.push(moment('2016-1-26T20:10:00Z').tz('America/New_York'));
-	schedule.push(moment('2016-2-2T18:30:00Z').tz('America/New_York'));
-	schedule.push(moment('2016-2-9T18:30:00Z').tz('America/New_York'));
-	schedule.push(moment('2016-2-16T20:10:00Z').tz('America/New_York'));
-	schedule.push(moment('2016-2-23T18:30:00Z').tz('America/New_York'));
+	schedule.push(moment('2016-01-26 20:10:00', 'America/New_York'));
+	schedule.push(moment('2016-02-02 18:30:00', 'America/New_York'));
+	schedule.push(moment('2016-02-09 18:30:00', 'America/New_York'));
+	schedule.push(moment('2016-02-16 20:10:00', 'America/New_York'));
+	schedule.push(moment('2016-02-23 18:30:00', 'America/New_York'));
 	var now = moment().tz('America/New_York');
 	var nextGame = undefined;
 	schedule.forEach(function(s) {
