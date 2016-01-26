@@ -5,7 +5,7 @@ var json = require('JSON');
 var numeral = require('numeral');
 var parseString = require('xml2js').parseString;
 var celebrity = require('./celebrity');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -60,12 +60,12 @@ app.post('/', function (req, res) {
 
 app.post('/bowling', function (req, res) {
 	var schedule = [];
-	schedule.push(moment('2016-1-26 23:10:00', 'YYYY-M-DD HH:mm:ss'));
-	schedule.push(moment('2016-2-2 21:30:00', 'YYYY-M-DD HH:mm:ss'));
-	schedule.push(moment('2016-2-9 21:30:00', 'YYYY-M-DD HH:mm:ss'));
-	schedule.push(moment('2016-2-16 23:10:00', 'YYYY-M-DD HH:mm:ss'));
-	schedule.push(moment('2016-2-23 21:30:00', 'YYYY-M-DD HH:mm:ss'));
-	var now = moment();
+	schedule.push(moment('2016-1-26 20:10:00', 'YYYY-M-DD HH:mm:ss').tz('America/New_York'));
+	schedule.push(moment('2016-2-2 18:30:00', 'YYYY-M-DD HH:mm:ss').tz('America/New_York'));
+	schedule.push(moment('2016-2-9 18:30:00', 'YYYY-M-DD HH:mm:ss').tz('America/New_York'));
+	schedule.push(moment('2016-2-16 20:10:00', 'YYYY-M-DD HH:mm:ss').tz('America/New_York'));
+	schedule.push(moment('2016-2-23 18:30:00', 'YYYY-M-DD HH:mm:ss').tz('America/New_York'));
+	var now = moment().tz('America/New_York');
 	var nextGame = undefined;
 	schedule.forEach(function(s) {
 		if(nextGame == undefined || (now.isBefore(s) && s.isBefore(nextGame))) {
