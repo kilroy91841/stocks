@@ -6,7 +6,8 @@
         "numeral": "*",
         "express": "4.13.3",
         "xml2js":"*",
-        "jade": "*"
+        "jade": "*",
+        "moment": "*"
     },
     "description": "Stock app",
     "engines": {
