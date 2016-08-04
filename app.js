@@ -58,6 +58,11 @@ app.post('/', function (req, res) {
 	});
 });
 
+app.post('/squint', function (req, res) {
+	res.setHeader("Content-type", "application/json");
+	res.send("{ \"response_type\": \"in_channel\", \"text\":\"http://www.reactiongifs.us/wp-content/uploads/2013/04/fry_squinting.gif\" }");
+});
+
 app.post('/bowling', function (req, res) {
 	var schedule = [];
 	schedule.push(moment.tz("January 26th 2016 8:10PM", "MMM Do YYYY h:mA", "America/New_York"));
