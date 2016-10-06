@@ -31,18 +31,19 @@ app.post('/', function (req, res) {
 
 	    console.log(stock);
 
-	    if(stock.Message !== undefined) {
-		    res.send("Couldn't find a stock price for that symbol, check your facts");
-		} else {
-			var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
-			if(stock.ChangePercent < 0) {
-				attachments += ", \"color\": \"danger\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price: " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
-			} else {
-				attachments += ", \"color\": \"good\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
-			}
-			attachments += "} ]";
-			res.setHeader("Content-type", "application/json");
-			res.send("{ \"response_type\": \"in_channel\"," + attachments + " }");
+	    res.send("Suck it, nerds");
+	 //    if(stock.Message !== undefined) {
+		//     res.send("Couldn't find a stock price for that symbol, check your facts");
+		// } else {
+		// 	var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
+		// 	if(stock.ChangePercent < 0) {
+		// 		attachments += ", \"color\": \"danger\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price: " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
+		// 	} else {
+		// 		attachments += ", \"color\": \"good\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
+		// 	}
+		// 	attachments += "} ]";
+		// 	res.setHeader("Content-type", "application/json");
+		// 	res.send("{ \"response_type\": \"in_channel\"," + attachments + " }");
 			// request.post({
 		 //    	url:'https://hooks.slack.com/services/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',
 		 //    	form: "{ \"response_type\": \"in_channel\"," + attachments + " }"
