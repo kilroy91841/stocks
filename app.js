@@ -34,10 +34,10 @@ app.post('/', function (req, res) {
 	    if(stock.Message !== undefined) {
 		    res.send("Couldn't find a stock price for that symbol, check your facts");
 		} else {
-			stock.Symbol = "¯\_(ツ)_/¯";
-			stock.LastPrice = "¯\_(ツ)_/¯";
-			change = "¯\_(ツ)_/¯";
-			changePercent = "¯\_(ツ)_/¯";
+			stock.Symbol = ":brian:";
+			stock.LastPrice = ":brian:";
+			change = ":brian:";
+			changePercent = ":brian:";
 			var attachments = "\"attachments\": [ {\"fallback\" : \"Hope you never see this!\""; 
 			if(stock.ChangePercent < 0) {
 				attachments += ", \"color\": \"danger\", \"fields\":[ { \"title\":\"" + stock.Symbol + "\", \"value\":\"Last Price: " + stock.LastPrice + ",  " + change + "    " + changePercent + "%\" } ]"
